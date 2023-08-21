@@ -22,8 +22,7 @@ public class Main {
         List<User> allUsers = userService.getAllUsers();
 
 
-        userService.createUsersTable();
-        userService.dropUsersTable();
+      userService.dropUsersTable();
 
     }
 }
