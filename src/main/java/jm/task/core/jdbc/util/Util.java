@@ -16,9 +16,9 @@ public class Util {
     private static final String URL = "jdbc:postgresql://localhost:5433/postgres";
     private static final String USER = "postgres";
     private static final String PASSWORD = "1234";
-    private static final SessionFactory SESSION_FACTORY;
+    private static SessionFactory sessionFactory;
 
-    static {
+    private static void createSessionFactory() {
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .applySetting(Environment.URL, "jdbc:postgresql://localhost:5433/postgres")
                 .applySetting(Environment.DRIVER, "org.postgresql.Driver")
@@ -34,11 +34,14 @@ public class Util {
                 .addAnnotatedClass(User.class)
                 .buildMetadata();
 
-        SESSION_FACTORY = metadata.buildSessionFactory();
+        sessionFactory = metadata.buildSessionFactory();
     }
 
     public static SessionFactory getSessionFactory() {
-        return SESSION_FACTORY;
+        if (sessionFactory == null) {
+            createSessionFactory();
+        }
+        return sessionFactory;
     }
 
 
